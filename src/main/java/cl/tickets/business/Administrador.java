@@ -4,8 +4,8 @@ import cl.tickets.persistencia.Conexion;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
+
 import java.util.Date;
 
 public class Administrador extends Usuario{
@@ -35,6 +35,11 @@ public class Administrador extends Usuario{
             return new Evento(1,"La pergola de las flores",new Date(),2);
         else
             return null;
+    }
+
+    // Método para crear eventos mediante patrón Factory
+    public Evento crearEvento(String tipo, int id, String nombre, Date fecha, int duracion, String director, List<String> actores) {
+        return EventoFactory.crearEvento(tipo, id, nombre, fecha, duracion, director, actores);
     }
 
     public void guardarAdministrador(Conexion conexion) {
