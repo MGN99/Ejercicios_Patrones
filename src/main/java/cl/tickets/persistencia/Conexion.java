@@ -5,9 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexion {
+    private static Conexion instance; // Instancia Singleton
     private Connection conn;
 
-    public Conexion(String dbName) {
+    // Constructor privado para evitar instancias externas
+    private Conexion(String dbName) {
         try {
             String url = "jdbc:sqlite:" + dbName;
             conn = DriverManager.getConnection(url);
@@ -17,10 +19,20 @@ public class Conexion {
         }
     }
 
+    // Método para obtener la única instancia de la clase
+    public static synchronized Conexion getInstance(String dbName) {
+        if (instance == null) {
+            instance = new Conexion(dbName);
+        }
+        return instance;
+    }
+
+    // Método para obtener la conexión
     public Connection getConnection() {
         return conn;
     }
 
+    // Método para cerrar la conexión
     public void close() {
         try {
             if (conn != null) {
